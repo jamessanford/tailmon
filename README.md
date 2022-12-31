@@ -16,7 +16,7 @@ and any new "tailmon" exporters you run will be scraped automatically.
   node2% tailmon -state . node-exporter:9100 postgres-exporter:9817
   ```
 
-2. Run a single instance of taildiscover
+2. Run a single instance of tailmon-discover
 
   ```
   prom-node% tailmon-discover -state /var/lib/tailmon
