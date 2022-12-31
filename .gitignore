@@ -1,0 +1,4 @@
+cmd/tailmon/tailmon
+cmd/tailmon/data-*
+cmd/tailmon-discover/tailmon-discover
+cmd/tailmon-discover/data-*
