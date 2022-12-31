@@ -26,7 +26,7 @@ import (
 var usageMessage = `Usage:
     tailmon-discover -state <dir>
 
-tailmon-disocver registers a node on a tailscale network, listens on port 80,
+tailmon-discover registers a node on a tailscale network, listens on port 80,
 and returns a Prometheus HTTP SD response containing all "tailmon" nodes.
 
 Run a single "tailmon-discover" along with many "tailmon" nodes to

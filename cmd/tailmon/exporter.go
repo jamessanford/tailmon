@@ -19,7 +19,7 @@ func (e *exporter) TailscaleNodeName() string {
 }
 
 // newExporter takes a name like "node-exporter:9100"
-// and saves the name, port, and hostname
+// and saves the name, port, and hostname.
 func newExporter(value string) (exporter, error) {
 	ep := exporter{}
 

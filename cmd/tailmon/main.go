@@ -1,7 +1,7 @@
 package main
 
 // TODO: Add "-auto" flag to look for *-exporter processes and their port.
-//       (and rescan the proces list occasionally)
+//       (and rescan the process list occasionally)
 
 import (
 	"context"
