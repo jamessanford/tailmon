@@ -1,4 +1,4 @@
-### Experimental!  Do not use in production!
+### Experimental!
 
 - Expose prometheus metrics over tailscale.
 - Securely poll your metrics from services across the globe through a dedicated metrics tailnet.
