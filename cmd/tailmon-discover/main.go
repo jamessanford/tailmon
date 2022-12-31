@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
-	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/netip"
 	"os"
@@ -51,17 +51,6 @@ type Endpoint struct {
 	Labels  map[string]string `json:"labels"`
 }
 
-// formatAddr formats an IP address as a hostname (IPv6 gets brackets)
-// There must be a better way to do this.
-func formatAddr(addr netip.Addr, port int) string {
-	switch {
-	case addr.Is4():
-		return fmt.Sprintf("%s:%d", addr.String(), port)
-	default:
-		return fmt.Sprintf("[%s]:%d", addr.String(), port)
-	}
-}
-
 func findTailmonEndpoints(ctx context.Context, tailnet *tsnet.Server) ([]*Endpoint, error) {
 	lc, err := tailnet.LocalClient()
 	if err != nil {
@@ -97,7 +86,7 @@ func findTailmonEndpoints(ctx context.Context, tailnet *tsnet.Server) ([]*Endpoi
 		// so only provide one address per peer.
 		endpoint := &Endpoint{
 			ip:      v.TailscaleIPs[0], // for sorting
-			Targets: []string{formatAddr(v.TailscaleIPs[0], 80)},
+			Targets: []string{net.JoinHostPort(v.TailscaleIPs[0].String(), "80")},
 			Labels: map[string]string{
 				"__meta_tailmon_node_name":     node,
 				"__meta_tailmon_exporter_name": exporter,
