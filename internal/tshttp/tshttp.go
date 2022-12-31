@@ -149,7 +149,7 @@ func (s *Server) Start(handler http.Handler) error {
 		switch {
 		case err == nil:
 			fallthrough
-		case err == http.ErrServerClosed:
+		case errors.Is(err, http.ErrServerClosed):
 			logger.Info("shutting down")
 		default:
 			logger.Error("http.Serve", zap.Error(err))
