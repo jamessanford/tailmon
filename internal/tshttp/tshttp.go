@@ -132,7 +132,19 @@ func (s *Server) Start(handler http.Handler) error {
 		return err
 	}
 
-	httpsrv := &http.Server{Handler: handler} // TODO: Timeouts, ErrorLog, etc
+	httpsrv := &http.Server{
+		Handler:      handler,
+		ErrorLog:     zap.NewStdLog(s.Logger.Named("http.Server")),
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 30 * time.Second,
+		IdleTimeout:  5 * time.Second,
+	}
+
+	// NOTE: BUG workaround: This server is leaving connections open despite the IdleTimeout.
+	//  This manifests itself as memory leaks and thousands of waiting goroutines.
+	//
+	// Until idle connections are town down properly, force one request per connection.
+	httpsrv.SetKeepAlivesEnabled(false)
 
 	s.cancel = func() {
 		httpctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
