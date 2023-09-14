@@ -146,13 +146,10 @@ func (s *Server) Start(handler http.Handler) error {
 	go func() {
 		logger.Debug("serving", zap.Int("port", 80))
 		err = httpsrv.Serve(listen)
-		switch {
-		case err == nil:
-			fallthrough
-		case errors.Is(err, http.ErrServerClosed):
-			logger.Info("shutting down")
-		default:
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
 			logger.Error("http.Serve", zap.Error(err))
+		} else {
+			logger.Info("shutting down")
 		}
 	}()
 
